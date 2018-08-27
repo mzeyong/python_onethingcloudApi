@@ -31,15 +31,15 @@ def get_sign(body, k=''):
     l = []
     while len(body) != 0:
         v = body.popitem()
-        l.append(v[0]+ '=' + v[1])
+        l.append(v[0] + '=' + v[1])
     l.sort()
     t = 0
-    sign = ''
+    s = ''
     while t != len(l):
-        sign = sign + l[t] + '&'
-        t = t+1
-        sign = sign + 'key=' + k
-    sign = md5(sign)
+        s = s + l[t] + '&'
+        t = t + 1
+    s = s + 'key=' + k
+    sign = md5(s)
     return sign
 
 
