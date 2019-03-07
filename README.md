@@ -29,7 +29,7 @@ else:
 
 
 ### 获取远端ID
- print(otc.get_peer_id())
+print(otc.get_peer_id())
  
 ### 获取远端下载列表
 dl_status = otc.list_remote_download()
