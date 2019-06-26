@@ -2,8 +2,7 @@
 # author:k2yk
 # email:mzeyong@gmail.com
 
-import common
-import config
+from . import config, common
 
 import requests
 import logging
@@ -33,7 +32,7 @@ class otc_api:
         try:
             login_data = common.body(deviceid=common.get_device_id(user), imeiid=common.get_imei_id(user), phone=user, pwd=common.get_pwd(passwd),
                                      account_type='4')
-            result = self.request_handler.post(config.LOGIN_URL,data=login_data)
+            result = self.request_handler.post(config.LOGIN_URL, data=login_data)
             if result.status_code == 200:
                 temp = result.json()
                 if temp.get("iRet") == 0:
@@ -50,7 +49,7 @@ class otc_api:
 
     def account_info(self): # 账户信息
         try:
-            account_data = common.get_params({"appversion":config.APP_VERSION},self.user_info.get("sessionid"))
+            account_data = common.get_params({"appversion": config.APP_VERSION}, self.user_info.get("sessionid"))
             result = self.request_handler.post(config.ACCOUNT_INFO_URL, data=account_data)
             if result.status_code == 200:
                 temp = result.json()
@@ -66,8 +65,8 @@ class otc_api:
 
     def list_peer_info(self): # 对端信息
         try:
-            peer_data = common.get_params(dict(appversion=config.APP_VERSION, v="1", ct="1"),self.user_info.get("sessionid"),True)
-            result = self.request_handler.get(config.LIST_PEER_URL+peer_data)
+            peer_data = common.get_params(dict(appversion=config.APP_VERSION, v="1", ct="1"), self.user_info.get("sessionid"), True)
+            result = self.request_handler.get(config.LIST_PEER_URL + peer_data)
             if result.status_code == 200:
                 temp = result.json()
                 if temp.get("rtn") == 0:
@@ -119,8 +118,8 @@ class otc_api:
         try:
             if not deviceid:
                 deviceid = self.get_peer_device_id()
-            peer_data = common.get_params(dict(appversion=config.APP_VERSION, v="1", ct="1",deviceid=deviceid),self.user_info.get("sessionid"),True)
-            result = self.request_handler.get(config.PEER_USB_INFO_URL+peer_data)
+            peer_data = common.get_params(dict(appversion=config.APP_VERSION, v="1", ct="1", deviceid=deviceid), self.user_info.get("sessionid"), True)
+            result = self.request_handler.get(config.PEER_USB_INFO_URL + peer_data)
             if result.status_code == 200:
                 temp = result.json()
                 if temp.get("rtn") == 0:
@@ -160,9 +159,9 @@ class otc_api:
         try:
             if not peerid:
                 peerid = self.get_peer_id()
-            remote_dl_data = common.get_params(dict(pid=peerid,appversion=config.APP_VERSION, v="2", ct="32",
-                                                   pos="0",needUrl="0"),
-                                         self.user_info.get("sessionid"), True)
+            remote_dl_data = common.get_params(dict(pid=peerid, appversion=config.APP_VERSION, v="2", ct="32",
+                                                    pos="0", needUrl="0"),
+                                               self.user_info.get("sessionid"), True)
             result = self.request_handler.get(config.LIST_REMOTE_DOWNLOAD_LIST_URL + remote_dl_data)
             if result.status_code == 200:
                 temp = result.json()
@@ -182,11 +181,9 @@ class otc_api:
         try:
             if not peerid:
                 peerid = self.get_peer_id()
-
-            remote_dl_data = common.get_params(dict(pid=peerid,appversion=config.APP_VERSION, v="1", ct="32"),
-                                         self.user_info.get("sessionid"), True)
-            print(config.LOGIN_REMOTE_DOWNLOAD_URL+remote_dl_data )
-            result = self.request_handler.get(config.LOGIN_REMOTE_DOWNLOAD_URL+ remote_dl_data)
+            remote_dl_data = common.get_params(dict(pid=peerid, appversion=config.APP_VERSION, v="1", ct="32"),
+                                               self.user_info.get("sessionid"), True)
+            result = self.request_handler.get(config.LOGIN_REMOTE_DOWNLOAD_URL + remote_dl_data)
             if result.status_code == 200:
                 temp = result.json()
                 if temp.get("rtn") == 0:
@@ -204,7 +201,7 @@ class otc_api:
             post_data = {
                 "url":url
             }
-            result = self.request_handler.post(config.URLRESOLVE_REMOTE_DOWNLOAD_URL+"pid={0}&v=1".format(peerid),data=post_data)
+            result = self.request_handler.post(config.URLRESOLVE_REMOTE_DOWNLOAD_URL + "pid={0}&v=1".format(peerid), data=post_data)
             if result.status_code == 200:
                 temp = result.json()
                 if temp.get("rtn") == 0:
@@ -219,9 +216,7 @@ class otc_api:
             if not peerid:
                 peerid = self.get_peer_id()
             remoteinfo = self.ansi_remote_download_url(url=url)
-            task_url , remote_dl_data = common.download_task(remoteinfo,userid=self.user_info.get("userid"))
-            print(task_url+"pid={}&v=1&ct=31".format(peerid))
-            print(remote_dl_data)
+            task_url , remote_dl_data = common.download_task(remoteinfo,file_path=file_path, userid=self.user_info.get("userid"))
             result = self.request_handler.post(task_url+"pid={}&v=2&ct=32".format(peerid),headers = {
                 "Content-Type": "application/json"
             }, json=remote_dl_data)

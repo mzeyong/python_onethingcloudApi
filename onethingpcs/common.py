@@ -1,4 +1,3 @@
-# coding=utf-8
 # author:k2yk
 # email:mzeyong@gmail.com
 
@@ -9,7 +8,8 @@
 # https://github.com/tzwlwm/wky-python-client
 
 import hashlib
-import config
+from . import config
+
 
 def md5(s):
     return hashlib.md5(s.encode('utf-8')).hexdigest().lower()
@@ -82,9 +82,8 @@ def download_task(file_info,userid="",file_path=False):
         result["infohash"]=file_info.get("infohash")
         result["localfile"]=""
         result["name"]=file_info.get("taskInfo").get("name")
-        result["path"]="/media/sda1/onecloud/tddownload"
+        result["path"]="/media/sda1/onecloud/tddownload" if not file_path else file_path
         result["userid"]=userid
-
     else:
         result["path"]="/media/sda1/onecloud/tddownload" if not file_path else file_path
         result["tasks"]=[
@@ -102,7 +101,7 @@ def download_task(file_info,userid="",file_path=False):
 
             }
         ]
-    return  config.CREATE_REMOTE_BT_DOWNLOAD_TASK_URL if len(file_info.get("infohash")) else config.CREATE_REMOTE_DOWNLOAD_TASK_URL, result
+    return config.CREATE_REMOTE_BT_DOWNLOAD_TASK_URL if len(file_info.get("infohash")) else config.CREATE_REMOTE_DOWNLOAD_TASK_URL, result
 
 
 

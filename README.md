@@ -6,6 +6,8 @@
 
 主要添加了远程下载文件的API ，自动下载对应的magent 以及普通文件。
 
+摸鱼不易 点个star 再走吧
+
 使用方式如下：
 ```
 import onethingpcs
@@ -44,3 +46,5 @@ else:
 otc.create_remote_download_task("下载地址/magnet")
 
 ```
+
+详情可查看test.py
