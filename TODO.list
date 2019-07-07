@@ -1,3 +1,13 @@
-1. 列出文件夹列表
-2. 同步文件到对应网盘（onedrive,gcloud,etc）
-3. chrome 插件
+TODOLIST
+1. 实现chrome 插件
+2. 写分析报告
+
+
+广域网版
+1. turn 隧道
+2. 实现局域网版功能
+
+
+局域网版
+1. 实现filemanager 以及 sysmanager 功能
+2. 同步文件到对应NAS/云盘

@@ -72,16 +72,17 @@ def get_params(data,sessionid,is_get=False):
 
     return estr+"sign="+sign if not is_get else gstr +"sign="+sign
 
-def download_task(file_info,userid="",file_path=False):
+def download_task(file_info,userid="",file_name=False,file_path=False):
     result = {
 
     }
+    if file_path and  not  file_path.startswith("/media/sda1/"):
+        file_path = "/media/sda1/{}".format(file_path)
     if len(file_info.get("infohash")):
-
         result["btSub"]=[0]
         result["infohash"]=file_info.get("infohash")
         result["localfile"]=""
-        result["name"]=file_info.get("taskInfo").get("name")
+        result["name"]=file_info.get("taskInfo").get("name") if not file_name else file_name
         result["path"]="/media/sda1/onecloud/tddownload" if not file_path else file_path
         result["userid"]=userid
     else:
@@ -95,7 +96,7 @@ def download_task(file_info,userid="",file_path=False):
                 },
                 "filesize":0,
                 "gcid":"",
-                "name":file_info.get("taskInfo").get("name"),
+                "name":file_info.get("taskInfo").get("name") if not file_name else file_name,
                 "ref_url":"",
                 "url":file_info.get("taskInfo").get("url")
 
